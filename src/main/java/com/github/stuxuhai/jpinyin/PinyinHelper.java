@@ -1,6 +1,7 @@
 package com.github.stuxuhai.jpinyin;
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -273,7 +274,7 @@ public final class PinyinHelper {
 		PINYIN_TABLE.putAll(PinyinResource.getResource(PinyinResource.newFileReader(path)));
 	}
 
-	public static void addMutilPinyinDict(String path) throws FileNotFoundException {
+	public static void addMultiPinyinDict(String path) throws FileNotFoundException {
 		MUTIL_PINYIN_TABLE.putAll(PinyinResource.getResource(PinyinResource.newFileReader(path)));
 		dict.clear();
 		DOUBLE_ARRAY_TRIE.clear();
@@ -283,6 +284,22 @@ public final class PinyinHelper {
 		Collections.sort(dict);
 		DOUBLE_ARRAY_TRIE.build(dict);
 	}
+
+	public static void addPinyinDict(InputStream is) {
+		PINYIN_TABLE.putAll(PinyinResource.getResource(PinyinResource.newInputStreamReader(is)));
+	}
+
+	public static void addMultiPinyinDict(InputStream is) {
+		MUTIL_PINYIN_TABLE.putAll(PinyinResource.getResource(PinyinResource.newInputStreamReader(is)));
+		dict.clear();
+		DOUBLE_ARRAY_TRIE.clear();
+		for (String word : MUTIL_PINYIN_TABLE.keySet()) {
+			dict.add(word);
+		}
+		Collections.sort(dict);
+		DOUBLE_ARRAY_TRIE.build(dict);
+	}
+
 	/**
 	 * 获取指定字符串拼音简码数组　即支持多音字
 	 *

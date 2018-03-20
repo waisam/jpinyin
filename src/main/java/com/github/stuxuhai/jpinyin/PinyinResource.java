@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -36,6 +37,10 @@ public final class PinyinResource {
         } catch (UnsupportedEncodingException e) {
             return null;
         }
+    }
+
+    protected static Reader newInputStreamReader(InputStream is) {
+        return new InputStreamReader(is, Charset.forName("UTF8"));
     }
 
     protected static Map<String, String> getResource(Reader reader) {
